@@ -235,7 +235,6 @@ function fetchProducts(url = "/products/filter") {
 
     $.ajax({
         url: url,
-        method: "GET",
         method: "POST",
         data: formData,
         headers: {
