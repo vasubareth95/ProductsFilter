@@ -12,7 +12,7 @@ class ProductFilterController extends Controller
      */
     public function index()
     {
-        $Products = Product::paginate(5);
+    $Products = Product::orderBy('name', 'asc')->paginate(5);
         $Category = Product::select('category')->distinct()->pluck('category');
         $Color = Product::select('color')->distinct()->pluck('color');
        
@@ -36,8 +36,13 @@ class ProductFilterController extends Controller
         if (!empty(($minprice) & ($maxprice))) {
             $products->whereBetween('price', [$minprice,$maxprice]);
         }
-    
+        
+        
+
+
         $productList = $products->get();
+
+
     
         return response()->json(['products' => $productList]);
     }

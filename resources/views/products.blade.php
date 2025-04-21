@@ -52,8 +52,10 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
-</style>
-    <style>
+    .paginate {
+    float: right;
+}
+
         .filter-row {
             padding: 15px;
         }
@@ -123,7 +125,7 @@
     <div id="loading-content"></div>
   </section>
 </head>
-<body>
+<body style="background-color:#e1dfdf">
     <div class="container">
         <div class="row filter-row">
         <form id="filters">
@@ -173,12 +175,11 @@
                     </form>
             </div>
         </div>
-        <div class="table">
-        <table class="table table-success table-striped">
+        <div class="table" >
+        <table class="table table-success table-striped" style="background-color:#f3f5cd">
          
          <thead>
-             <tr>
-             <th scope="col">#</th>
+             <tr>             
              <th scope="col">name</th>
              <th scope="col">category</th>
              <th scope="col">price</th>
@@ -189,7 +190,7 @@
          <tbody id= "productList">
           <?php foreach($products as $index => $product){ ?>
              <tr>
-             <td scope="row">{{ $product->id }}</td>
+             
              <td>{{ $product->name }}</td>
              <td>{{ $product->category }}</td>
              <td>{{ $product->price }}</td>
@@ -200,10 +201,13 @@
          </tbody>
 
                      </table>
-                     
-        {{ $products }}
+               <div class="paginate">
+               {{ $products }}
+          </div>      
+       
 
         </div>
+
     </div>
     
   </body>
@@ -236,7 +240,7 @@ $('#filters').on('submit', function (e) {
             } else {
                 response.products.forEach(function (product) {
                     html += `<tr>
-                            <td scope="row">${product.id}</td>
+                            
                             <td>${product.name}</td>
                             <td>${product.category}</td>
                             <td>${product.price}</td>
@@ -254,7 +258,7 @@ $('#filters').on('submit', function (e) {
 
 $('#clearFilters').on('click', function () {
     $('#filters')[0].reset();
-    $('#filters').submit();
+    window.location.href = '/products?page=1';
 });
 
 function showLoading() {
