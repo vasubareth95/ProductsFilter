@@ -104,8 +104,8 @@
 }
 .loading-content {
 	position: absolute;
-	border: 16px solid #f3f3f3; /* Light grey */
-	border-top: 16px solid #3498db; /* Blue */
+	border: 16px solid #f3f3f3; 
+	border-top: 16px solid #3498db; 
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
@@ -201,7 +201,7 @@
          </tbody>
 
                      </table>
-               <div class="paginate">
+               <div class="paginate" id ="paginate">
                {{ $products }}
           </div>      
        
@@ -219,14 +219,23 @@
 
 
 <script>
+$(document).on('click', '#paginate a', function (e) {
+    e.preventDefault();
+    const url = $(this).attr('href');
+    fetchProducts(url);
+});
 
 $('#filters').on('submit', function (e) {
     e.preventDefault();
-    let formData = $(this).serialize();
+    fetchProducts();
+});
+function fetchProducts(url = "/products/filter") {
+    let formData = $('#filters').serialize();
     showLoading();
 
     $.ajax({
-        url: "/products/filter",
+        url: url,
+        method: "GET",
         method: "POST",
         data: formData,
         headers: {
@@ -248,17 +257,19 @@ $('#filters').on('submit', function (e) {
                             <td>${product.created_at}</td>
                         </tr>
                     `;
+                    
                 });
             }
 
             $('#productList').html(html);
+            $('#paginate').html(response.pagination);
         }
     });
-});
+}
 
 $('#clearFilters').on('click', function () {
     $('#filters')[0].reset();
-    window.location.href = '/products?page=1';
+    $('#filters').submit();
 });
 
 function showLoading() {

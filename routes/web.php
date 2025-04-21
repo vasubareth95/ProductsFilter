@@ -7,4 +7,4 @@ Route::get('/', function () {
 });
 
 Route::get('/products',[ProductFilterController::class,'index'])->name('products.index');
-Route::post('/products/filter', [ProductFilterController::class, 'filter'])->name('products.filter');
+Route::match(['get', 'post'], '/products/filter', [ProductFilterController::class, 'filter'])->name('products.filter');

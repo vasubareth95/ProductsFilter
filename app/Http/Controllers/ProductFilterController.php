@@ -37,14 +37,14 @@ class ProductFilterController extends Controller
             $products->whereBetween('price', [$minprice,$maxprice]);
         }
         
+        $ProductList = $products->orderBy('name', 'asc')->paginate(5)->withQueryString();
+
+
+        return response()->json([
+            'products' => $ProductList->items(),
+            'pagination' => $ProductList->links('pagination::bootstrap-4')->render(),
+        ]);
         
-
-
-        $productList = $products->get();
-
-
-    
-        return response()->json(['products' => $productList]);
     }
     
     public function create()
